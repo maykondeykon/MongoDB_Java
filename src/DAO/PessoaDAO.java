@@ -7,7 +7,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-import java.util.Date;
 import org.bson.types.ObjectId;
 
 /**
@@ -63,7 +62,7 @@ public class PessoaDAO
 
             while (cursor.hasNext()) {
                 DBObject doc = cursor.next();
-                
+
                 p = new Pessoa();
                 p.setId((ObjectId) doc.get("_id"));
                 p.setNome((String) doc.get("nome"));
@@ -82,13 +81,24 @@ public class PessoaDAO
         try {
             BasicDBObject query = new BasicDBObject();
             query.put("_id", p.getId());
-                        
+
             document = new BasicDBObject();
             document.put("nome", p.getNome());
             document.put("idade", p.getIdade());
             document.put("endereco", p.getEndereco());
 
             table.update(query, document);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void delete(Pessoa p)
+    {
+        try {
+            BasicDBObject query = new BasicDBObject();
+            query.put("_id", p.getId());
+            table.remove(query);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

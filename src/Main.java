@@ -2,8 +2,6 @@
 import DAO.PessoaDAO;
 import Model.Pessoa;
 import com.mongodb.*;
-import java.util.Date;
-import java.util.List;
 
 /**
  *
@@ -11,40 +9,13 @@ import java.util.List;
  */
 public class Main
 {
-
-    private MongoClient mongo;
-    private DB db;
-    private DBCollection table;
-
     public static void main(String[] args)
     {
 //        insertTeste();
 //        updateTeste();
 //        findByTeste();
-
+        deleteTeste();
         findAllTeste();
-    }
-
-    static void teste()
-    {
-        MongoClient mongo = new MongoClient("localhost", 27017);
-
-        DB db = mongo.getDB("pessoa");
-        DBCollection table = db.getCollection("pessoa");
-
-//	BasicDBObject document = new BasicDBObject();
-//	document.put("name", "mkyong");
-//	document.put("age", 30);
-//	document.put("createdDate", new Date());
-//	table.insert(document);
-//        BasicDBObject searchQuery = new BasicDBObject();
-//	searchQuery.put("name", "mkyong");
-        DBCursor cursor = table.find();
-
-        while (cursor.hasNext()) {
-            System.out.println(cursor.next());
-        }
-
     }
 
     static void insertTeste()
@@ -93,6 +64,19 @@ public class Main
         p.setNome("Maykon Deykon");
 
         dao.update(p);
+
+    }
+
+    static void deleteTeste()
+    {
+        PessoaDAO dao = new PessoaDAO();
+
+        BasicDBObject searchQuery = new BasicDBObject();
+        searchQuery.put("nome", "Maykon Deykon");
+
+        Pessoa p = dao.findBy(searchQuery);
+
+        dao.delete(p);
 
     }
 
